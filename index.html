@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Takshashila Scholar — Policy Reasoning Tools</title>
+  <meta name="description" content="Open-source policy reasoning tools built on Takshashila's research methodology. Bring your own Anthropic API key.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="brand">
+        <h1>Takshashila <span class="brand-accent">Scholar</span></h1>
+        <p class="tagline">Policy reasoning tools — Takshashila's methodology, open-sourced.</p>
+      </div>
+      <button id="settings-btn" class="settings-btn" aria-label="Settings">⚙ Settings</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Settings panel -->
+    <section id="settings-panel" class="settings-panel hidden">
+      <h2>Settings</h2>
+      <p class="muted">Your Anthropic API key is stored only in your browser's localStorage. It is never sent to any server other than Anthropic's API.</p>
+      <label for="api-key">Anthropic API key</label>
+      <input type="password" id="api-key" placeholder="sk-ant-..." autocomplete="off">
+      <label for="model-select">Model</label>
+      <select id="model-select">
+        <option value="claude-sonnet-4-5-20250929">Claude Sonnet 4.5 (recommended)</option>
+        <option value="claude-opus-4-1-20250805">Claude Opus 4.1</option>
+        <option value="claude-3-5-haiku-20241022">Claude Haiku 3.5 (cheapest)</option>
+      </select>
+      <div class="settings-actions">
+        <button id="save-settings" class="btn-primary">Save</button>
+        <button id="clear-settings" class="btn-secondary">Clear key</button>
+      </div>
+      <p class="muted small">Get an API key at <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a>. You pay Anthropic directly for usage.</p>
+    </section>
+
+    <!-- Workflow selector -->
+    <section id="workflow-select" class="workflow-select">
+      <h2>Choose a workflow</h2>
+      <div class="workflow-grid">
+        <button class="workflow-card" data-workflow="hypothesis">
+          <h3>Hypothesis Development</h3>
+          <p>Turn an intuition into a testable, falsifiable claim. Produces a Research Brief.</p>
+        </button>
+        <button class="workflow-card" data-workflow="stakeholder">
+          <h3>Stakeholder Analysis</h3>
+          <p>Map the political economy: who has power, who has interest, who can block.</p>
+        </button>
+        <button class="workflow-card" data-workflow="bardach">
+          <h3>Policy Analysis (Bardach)</h3>
+          <p>Systematic 8-step policy analysis with India-specific lenses.</p>
+        </button>
+        <button class="workflow-card" data-workflow="causal">
+          <h3>Causal Loop Analysis</h3>
+          <p>Make implicit causal claims explicit. Name feedback loops. Find leverage points.</p>
+        </button>
+        <button class="workflow-card" data-workflow="review">
+          <h3>Draft Review</h3>
+          <p>Pre-submission review using Takshashila standards: RBF, 21st century realities, values.</p>
+        </button>
+        <button class="workflow-card" data-workflow="critique">
+          <h3>Argument Critique</h3>
+          <p>Adversarial review: Baloney Detection, Sagan's method, logical fallacies.</p>
+        </button>
+      </div>
+    </section>
+
+    <!-- Chat interface -->
+    <section id="workflow-chat" class="workflow-chat hidden">
+      <div class="chat-header">
+        <button id="back-btn" class="btn-link">← Back</button>
+        <h2 id="workflow-title"></h2>
+        <button id="reset-btn" class="btn-link">Reset</button>
+      </div>
+      <div id="messages" class="messages"></div>
+      <form id="input-form" class="input-form">
+        <textarea id="input-text" placeholder="Type your message... (Shift+Enter for new line, Enter to send)" rows="3"></textarea>
+        <button type="submit" id="send-btn" class="btn-primary">Send</button>
+      </form>
+      <p class="muted small disclaimer">Your conversation is stored only in your browser. Nothing is sent to any server other than Anthropic's API.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>
+        <strong>Takshashila Scholar</strong> ·
+        Open-source policy reasoning tools built on <a href="https://takshashila.org.in" target="_blank" rel="noopener">Takshashila Institution's</a> research methodology.
+        Source: <a href="https://github.com/TakshashilaInst/scholar-web" target="_blank" rel="noopener">GitHub</a>.
+      </p>
+      <p class="muted small">
+        This tool is intended to support — not replace — careful policy reasoning. AI output should be verified, especially for citations.
+      </p>
+    </div>
+  </footer>
+
+  <script src="prompts.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
