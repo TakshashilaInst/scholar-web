@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Takshashila Scholar</title>
+  <meta name="description" content="How Takshashila Scholar thinks: public policy as a complex adaptive system, causal loop analysis, and the values behind the methodology.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..700&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="masthead">
+    <div class="container masthead-inner">
+      <a class="brand" href="./">
+        <svg class="lighthouse" viewBox="0 0 48 64" aria-hidden="true">
+          <path d="M24 2l3 10H21z" />
+          <rect x="20" y="12" width="8" height="6" />
+          <path d="M18 18h12l4 42H14z" />
+          <line x1="19" y1="32" x2="29" y2="32" />
+          <line x1="18" y1="44" x2="30" y2="44" />
+          <path class="beam" d="M28 15 L46 6 M28 15 L46 24" />
+        </svg>
+        <span class="brand-text">
+          <span class="brand-kicker">Takshashila Institution</span>
+          <span class="brand-title">Scholar</span>
+        </span>
+      </a>
+      <nav class="masthead-nav">
+        <a class="ghost-btn" href="./">The tools</a>
+        <a class="ghost-btn is-active" href="about.html">About</a>
+      </nav>
+    </div>
+    <div class="masthead-rule" aria-hidden="true"></div>
+  </header>
+
+  <main class="container">
+    <article class="article">
+
+      <p class="overline">About</p>
+      <h1 class="display">How Scholar<br><em>thinks.</em></h1>
+      <p class="standfirst">Scholar is not a general assistant pointed at policy questions. It runs the Takshashila Institution's research method, which rests on a few firm commitments about what policy analysis is and how it should be done.</p>
+
+      <h2>Public policy is a complex adaptive system</h2>
+      <p>A policy is not a machine with levers. It is an intervention into a system of people who notice the intervention and change their behaviour in response. Subsidies get captured. Bans create black markets. A rule written for one problem reshapes incentives three steps away from where anyone was looking.</p>
+      <p>This is the single assumption that shapes everything else here. If the system adapts, then first-order thinking is not enough. The gain you intended is often swamped by the second-order effects you did not trace. So the method is built to expose structure before it recommends action.</p>
+
+      <h2>Why causal loop analysis sits at the centre</h2>
+      <p>Most policy arguments carry a hidden theory of how the world works. "Do X and Y will improve" assumes a chain of cause and effect that the author rarely writes down. Causal loop analysis forces that chain into the open. It names the reinforcing loops that make a problem compound, the balancing loops that quietly defeat well-meaning fixes, and the places where two loops cross and an intervention either multiplies or cancels out.</p>
+      <p>The point is to find the unintended consequence on paper, while it is still cheap to fix, instead of in the field two years later. Tracing the loop also shows where leverage actually sits, which is usually not where the political attention is.</p>
+
+      <h2>Start with a hypothesis, read the literature later</h2>
+      <p>Read everything first and your thinking takes the shape of whatever you read. The method here reverses the usual order. State your own model first. Give it time. Then go to the literature to test it, looking as hard for the evidence that breaks it as the evidence that supports it. A piece without a tested hypothesis is an opinion. A piece with one is an argument.</p>
+
+      <h2>Match the question to the framework</h2>
+      <p>Policy work tends to fall into a handful of question types, and each has a framework that fits it better than the others.</p>
+      <table>
+        <thead><tr><th>The question</th><th>The instrument</th></tr></thead>
+        <tbody>
+          <tr><td>What is going to happen next?</td><td>Scenario building, 2×2</td></tr>
+          <tr><td>How could a two-party conflict play out?</td><td>Escalation ladders, game theory</td></tr>
+          <tr><td>What should the government do?</td><td>Bardach's eight-step path</td></tr>
+          <tr><td>What explains the status quo?</td><td>Causal loop analysis</td></tr>
+          <tr><td>How should a sector be restructured?</td><td>Osborne and Plastrik</td></tr>
+          <tr><td>How will people read this change?</td><td>Stakeholder analysis</td></tr>
+          <tr><td>What could go wrong?</td><td>Anticipate the unintended</td></tr>
+        </tbody>
+      </table>
+      <p>This web app exposes the most reusable of these. The full set lives in the <a href="https://github.com/TakshashilaInst/scholar" target="_blank" rel="noopener">Scholar plugin</a> for Claude Code.</p>
+
+      <h2>The values are stated, not hidden</h2>
+      <p>Every think tank has a worldview. Most leave it implicit. Takshashila writes its commitments down so that anyone using this method knows the tradition they are working inside.</p>
+      <ul>
+        <li><strong>Freedom.</strong> Economic, social, and political liberty is treated as a value worth defending, not only a cost to be managed.</li>
+        <li><strong>Pluralism.</strong> India is diverse. A policy that works in one part of it may fail across the rest. Minority positions and regional variation get a fair hearing.</li>
+        <li><strong>Citizenship and the Constitution.</strong> The framework of rights, accountability, and the rule of law is worth defending even while arguing for its reform.</li>
+        <li><strong>Realism in international affairs.</strong> States act on interest and power. Moral framing is not strategic analysis.</li>
+      </ul>
+      <p>Three working rules follow from these. The method is pro-market, which is not the same as pro-business. Non-partisanship does not mean neutrality, because a policy and its consequences carry a position whether you state one or not. And policies are judged by what they do to people, not by their stated intentions or by who proposed them. The question is always better or worse, and for whom, rather than good or bad.</p>
+
+      <h2>Standards every output has to meet</h2>
+      <p><strong>Lead with the conclusion.</strong> The recommendation goes in the first paragraph. Evidence and method follow. A reader who stops after the opening should still know what you are arguing. Takshashila calls this the Reverse Bollywood Format.</p>
+      <p><strong>Reason like Sagan.</strong> Hold several hypotheses at once. Quantify whatever can be quantified. Apply Occam's razor. Stay unattached to your own claim, and check that every link in the chain holds, not just the convenient ones. Before a claim is accepted, it has to pass plain baloney detection: is the source independent, has it been verified elsewhere, does it fit what is otherwise known.</p>
+      <p><strong>Account for the century we are in.</strong> Climate change, the energy transition, the information age, and complexity now touch most policy questions. Analysis that ignores the relevant ones is incomplete by Takshashila's standard.</p>
+      <p><strong>Ask from where you stand.</strong> The question is framed from an Indian vantage point, and so is the answer. Western policy debates are checked for fit before they are imported, because India's state capacity and federal structure change the analysis.</p>
+
+      <h2>What this app is, and is not</h2>
+      <p>This is a browser version of a larger method. It carries the reasoning workflows and the standards above. It does not have the full plugin's web search, source verification, or knowledge base. Treat its output as a strong first pass that still needs your judgement, and verify any citation or statistic before you use it.</p>
+      <p>Your work stays in your browser. The only thing that leaves is the request you send to Anthropic's API with your own key.</p>
+
+      <p class="article-cta"><a class="text-link" href="./">Open the tools →</a></p>
+
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-rule" aria-hidden="true"></div>
+      <p class="footer-main">
+        <strong>Takshashila Scholar.</strong>
+        Built on the <a href="https://takshashila.org.in" target="_blank" rel="noopener">Takshashila Institution's</a> research methodology.
+        Source on <a href="https://github.com/TakshashilaInst/scholar-web" target="_blank" rel="noopener">GitHub</a>.
+      </p>
+      <p class="muted small">
+        This tool supports careful reasoning; it does not do the reasoning for you. Always check AI output before relying on it, especially citations, statistics, and claims about specific institutions.
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -67,9 +67,9 @@ app.js            — UI logic and Anthropic API calls
 
 ## Why "Takshashila in a Box"?
 
-The Takshashila Institution has spent over a decade developing a codified research methodology — a specific way of framing policy questions, mapping stakeholders, surfacing causal mechanisms, and writing for impact. This methodology lives in the heads of senior researchers and in internal training material.
+The Takshashila Institution has spent over a decade developing a codified research methodology: a specific way of framing policy questions, mapping stakeholders, surfacing causal mechanisms, and writing for impact. Most of it lives in the heads of senior researchers and in internal training material.
 
-**Takshashila Scholar makes that methodology available to anyone with an Anthropic API key.** It is not a chatbot that answers questions about policy. It is a structured workflow tool that walks a researcher through the institutional process: from a question through stakeholder mapping, causal analysis, drafting, and pre-submission review.
+**Takshashila Scholar makes that methodology available to anyone with an Anthropic API key.** It walks a researcher through the institutional process step by step, from a question, through stakeholder mapping and causal analysis, to drafting and pre-submission review.
 
 The full methodology is documented in the [Scholar Claude Code plugin](https://github.com/TakshashilaInst/scholar). This web app is a simpler, browser-based subset for non-technical users.
 

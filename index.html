@@ -5,95 +5,151 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Takshashila Scholar — Policy Reasoning Tools</title>
   <meta name="description" content="Open-source policy reasoning tools built on Takshashila's research methodology. Bring your own Anthropic API key.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..700&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <div class="brand">
-        <h1>Takshashila <span class="brand-accent">Scholar</span></h1>
-        <p class="tagline">Policy reasoning tools — Takshashila's methodology, open-sourced.</p>
-      </div>
-      <button id="settings-btn" class="settings-btn" aria-label="Settings">⚙ Settings</button>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="masthead">
+    <div class="container masthead-inner">
+      <a class="brand" href="./" id="home-link">
+        <svg class="lighthouse" viewBox="0 0 48 64" aria-hidden="true">
+          <path d="M24 2l3 10H21z" />
+          <rect x="20" y="12" width="8" height="6" />
+          <path d="M18 18h12l4 42H14z" />
+          <line x1="19" y1="32" x2="29" y2="32" />
+          <line x1="18" y1="44" x2="30" y2="44" />
+          <path class="beam" d="M28 15 L46 6 M28 15 L46 24" />
+        </svg>
+        <span class="brand-text">
+          <span class="brand-kicker">Takshashila Institution</span>
+          <span class="brand-title">Scholar</span>
+        </span>
+      </a>
+      <nav class="masthead-nav">
+        <a class="ghost-btn" href="about.html">About</a>
+        <button id="settings-btn" class="ghost-btn" aria-label="Settings">Settings</button>
+      </nav>
     </div>
+    <div class="masthead-rule" aria-hidden="true"></div>
   </header>
 
   <main class="container">
-    <!-- Settings panel -->
-    <section id="settings-panel" class="settings-panel hidden">
-      <h2>Settings</h2>
-      <p class="muted">Your Anthropic API key is stored only in your browser's localStorage. It is never sent to any server other than Anthropic's API.</p>
+
+    <!-- Settings -->
+    <section id="settings-panel" class="panel hidden">
+      <h2 class="panel-title">Settings</h2>
+      <p class="muted">Your Anthropic API key is stored only in this browser's <code>localStorage</code>. It is never sent anywhere except Anthropic's API.</p>
       <label for="api-key">Anthropic API key</label>
-      <input type="password" id="api-key" placeholder="sk-ant-..." autocomplete="off">
+      <input type="password" id="api-key" placeholder="sk-ant-…" autocomplete="off" spellcheck="false">
       <label for="model-select">Model</label>
       <select id="model-select">
-        <option value="claude-sonnet-4-5-20250929">Claude Sonnet 4.5 (recommended)</option>
-        <option value="claude-opus-4-1-20250805">Claude Opus 4.1</option>
-        <option value="claude-3-5-haiku-20241022">Claude Haiku 3.5 (cheapest)</option>
+        <option value="claude-sonnet-4-5-20250929">Claude Sonnet 4.5 — recommended</option>
+        <option value="claude-opus-4-1-20250805">Claude Opus 4.1 — deepest reasoning</option>
+        <option value="claude-3-5-haiku-20241022">Claude Haiku 3.5 — cheapest</option>
       </select>
-      <div class="settings-actions">
-        <button id="save-settings" class="btn-primary">Save</button>
-        <button id="clear-settings" class="btn-secondary">Clear key</button>
+      <div class="panel-actions">
+        <button id="save-settings" class="solid-btn">Save</button>
+        <button id="clear-settings" class="line-btn">Clear key</button>
       </div>
-      <p class="muted small">Get an API key at <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a>. You pay Anthropic directly for usage.</p>
+      <p class="muted small">Get a key at <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a>. You pay Anthropic directly for usage.</p>
     </section>
 
-    <!-- Workflow selector -->
-    <section id="workflow-select" class="workflow-select">
-      <h2>Choose a workflow</h2>
-      <div class="workflow-grid">
-        <button class="workflow-card" data-workflow="hypothesis">
-          <h3>Hypothesis Development</h3>
-          <p>Turn an intuition into a testable, falsifiable claim. Produces a Research Brief.</p>
-        </button>
-        <button class="workflow-card" data-workflow="stakeholder">
-          <h3>Stakeholder Analysis</h3>
-          <p>Map the political economy: who has power, who has interest, who can block.</p>
-        </button>
-        <button class="workflow-card" data-workflow="bardach">
-          <h3>Policy Analysis (Bardach)</h3>
-          <p>Systematic 8-step policy analysis with India-specific lenses.</p>
-        </button>
-        <button class="workflow-card" data-workflow="causal">
-          <h3>Causal Loop Analysis</h3>
-          <p>Make implicit causal claims explicit. Name feedback loops. Find leverage points.</p>
-        </button>
-        <button class="workflow-card" data-workflow="review">
-          <h3>Draft Review</h3>
-          <p>Pre-submission review using Takshashila standards: RBF, 21st century realities, values.</p>
-        </button>
-        <button class="workflow-card" data-workflow="critique">
-          <h3>Argument Critique</h3>
-          <p>Adversarial review: Baloney Detection, Sagan's method, logical fallacies.</p>
-        </button>
+    <!-- Router: where are you? -->
+    <section id="router" class="lede-wrap">
+      <div class="lede">
+        <p class="overline">Takshashila in a box</p>
+        <h1 class="display">A researcher's instrument for<br><em>thinking through policy.</em></h1>
+        <p class="standfirst">The Takshashila Institution's research process, broken into stages. Pick the one that matches what you have right now.</p>
       </div>
+
+      <ol class="route-list">
+        <li><button class="route-card" data-path="A">
+          <span class="route-tag">Path A</span>
+          <h3>I have a hypothesis or argument</h3>
+          <p>You think X causes Y, or you want to argue a position. Begin by making the claim testable, then map who it affects and trace its causal logic.</p>
+          <span class="route-flow">Frame → Map actors → Trace cause → <i>draft</i> → Review → Stress-test</span>
+        </button></li>
+        <li><button class="route-card" data-path="B">
+          <span class="route-tag">Path B</span>
+          <h3>I have a policy problem to work through</h3>
+          <p>You have an issue but no settled position yet. Work the full eight-step analysis to generate and weigh alternatives, then pressure-test them.</p>
+          <span class="route-flow">Analyse (Bardach) → Map actors → Trace cause → <i>draft</i> → Review → Stress-test</span>
+        </button></li>
+        <li><button class="route-card" data-path="C">
+          <span class="route-tag">Path C</span>
+          <h3>I have a draft to review</h3>
+          <p>The thinking and writing are done. Run it through Takshashila's pre-submission standards and an adversarial critique.</p>
+          <span class="route-flow">Review → Stress-test</span>
+        </button></li>
+      </ol>
+
+      <p class="route-aside">Know exactly what you need? <button id="show-all-tools" class="text-link">Browse all tools individually →</button></p>
     </section>
 
-    <!-- Chat interface -->
-    <section id="workflow-chat" class="workflow-chat hidden">
+    <!-- Path view: the chosen lifecycle -->
+    <section id="path-view" class="path-view hidden">
+      <button class="text-link back-to-router" data-act="router">← Choose a different starting point</button>
+      <h2 class="path-title" id="path-title"></h2>
+      <p class="path-sub" id="path-sub"></p>
+      <div id="path-rail" class="rail rail-lg"></div>
+      <ol id="stage-list" class="stage-list"></ol>
+    </section>
+
+    <!-- All tools grid -->
+    <section id="workflow-select" class="hidden">
+      <button class="text-link back-to-router" data-act="router">← Back to guided start</button>
+      <h2 class="path-title">All tools</h2>
+      <p class="path-sub">Each is a stage of the same research process. Pick one to use it on its own.</p>
+      <ol class="workflow-grid">
+        <li><button class="workflow-card" data-workflow="hypothesis"><span class="wf-index">01</span><h3>Hypothesis Development</h3><p>Turn an intuition into a testable, falsifiable claim. Produces a Research Brief.</p></button></li>
+        <li><button class="workflow-card" data-workflow="framework"><span class="wf-index">02</span><h3>Find a Framework</h3><p>Match your problem to the Takshashila framework library and learn why each fits.</p></button></li>
+        <li><button class="workflow-card" data-workflow="bardach"><span class="wf-index">03</span><h3>Policy Analysis</h3><p>Bardach's eight-step path, with India-specific state-capacity and federalism lenses.</p></button></li>
+        <li><button class="workflow-card" data-workflow="stakeholder"><span class="wf-index">04</span><h3>Stakeholder Analysis</h3><p>Map the political economy: who holds power, who holds interest, who can block.</p></button></li>
+        <li><button class="workflow-card" data-workflow="causal"><span class="wf-index">05</span><h3>Causal Loop Analysis</h3><p>Make implicit causal claims explicit. Name feedback loops. Find leverage points.</p></button></li>
+        <li><button class="workflow-card" data-workflow="oped"><span class="wf-index">06</span><h3>Op-ed Draft</h3><p>A 600–900 word newspaper op-ed in the Takshashila voice, built on your analysis.</p></button></li>
+        <li><button class="workflow-card" data-workflow="brief"><span class="wf-index">07</span><h3>Policy Brief Draft</h3><p>Problem, evidence, options, recommendation — in the Takshashila brief format.</p></button></li>
+        <li><button class="workflow-card" data-workflow="discussion"><span class="wf-index">08</span><h3>Discussion Document</h3><p>A longer analytical piece that maps the problem and opens the debate.</p></button></li>
+        <li><button class="workflow-card" data-workflow="review"><span class="wf-index">09</span><h3>Draft Review</h3><p>Pre-submission review on Takshashila standards: RBF, 21st-century realities, voice.</p></button></li>
+        <li><button class="workflow-card" data-workflow="values"><span class="wf-index">10</span><h3>Values Review</h3><p>Read through Takshashila's five commitments. Tensions surfaced as questions.</p></button></li>
+        <li><button class="workflow-card" data-workflow="realities"><span class="wf-index">11</span><h3>21st-Century Realities Check</h3><p>Climate, energy transition, information age, complexity — the quick four-lens check.</p></button></li>
+        <li><button class="workflow-card" data-workflow="critique"><span class="wf-index">12</span><h3>Argument Critique</h3><p>Adversarial review: Baloney Detection, Sagan's method, named logical fallacies.</p></button></li>
+      </ol>
+    </section>
+
+    <!-- Chat -->
+    <section id="workflow-chat" class="chat hidden">
+      <div id="chat-rail" class="rail rail-sm"></div>
       <div class="chat-header">
-        <button id="back-btn" class="btn-link">← Back</button>
-        <h2 id="workflow-title"></h2>
-        <button id="reset-btn" class="btn-link">Reset</button>
+        <button id="back-btn" class="line-btn small">← Path</button>
+        <h2 id="workflow-title" class="chat-title"></h2>
+        <button id="reset-btn" class="line-btn small">Reset</button>
       </div>
+      <div id="carry-note" class="carry-note hidden"></div>
       <div id="messages" class="messages"></div>
+      <div id="next-step" class="next-step hidden"></div>
       <form id="input-form" class="input-form">
-        <textarea id="input-text" placeholder="Type your message... (Shift+Enter for new line, Enter to send)" rows="3"></textarea>
-        <button type="submit" id="send-btn" class="btn-primary">Send</button>
+        <textarea id="input-text" placeholder="Write your message — Shift+Enter for a new line, Enter to send" rows="3"></textarea>
+        <button type="submit" id="send-btn" class="solid-btn">Send</button>
       </form>
-      <p class="muted small disclaimer">Your conversation is stored only in your browser. Nothing is sent to any server other than Anthropic's API.</p>
+      <p class="muted small disclaimer">This conversation lives only in your browser. Refresh and it is gone. Nothing is sent anywhere except Anthropic's API.</p>
     </section>
+
   </main>
 
   <footer class="site-footer">
     <div class="container">
-      <p>
-        <strong>Takshashila Scholar</strong> ·
-        Open-source policy reasoning tools built on <a href="https://takshashila.org.in" target="_blank" rel="noopener">Takshashila Institution's</a> research methodology.
-        Source: <a href="https://github.com/TakshashilaInst/scholar-web" target="_blank" rel="noopener">GitHub</a>.
+      <div class="footer-rule" aria-hidden="true"></div>
+      <p class="footer-main">
+        <strong>Takshashila Scholar.</strong>
+        Open-source policy reasoning tools built on the <a href="https://takshashila.org.in" target="_blank" rel="noopener">Takshashila Institution's</a> research methodology.
+        Source on <a href="https://github.com/TakshashilaInst/scholar-web" target="_blank" rel="noopener">GitHub</a>.
       </p>
       <p class="muted small">
-        This tool is intended to support — not replace — careful policy reasoning. AI output should be verified, especially for citations.
+        This tool supports careful reasoning; it does not do the reasoning for you. Always check AI output before relying on it, especially citations, statistics, and claims about specific institutions.
       </p>
     </div>
   </footer>
