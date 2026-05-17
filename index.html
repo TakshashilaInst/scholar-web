@@ -33,6 +33,7 @@
         </span>
       </a>
       <nav class="masthead-nav">
+        <a class="ghost-btn" href="https://github.com/TakshashilaInst/scholar-web" target="_blank" rel="noopener">Source</a>
         <a class="ghost-btn" href="about.html">About</a>
         <button id="settings-btn" class="ghost-btn" aria-label="Settings">Settings</button>
       </nav>
@@ -90,7 +91,25 @@
         </button></li>
       </ol>
 
+      <p class="route-newhere">New to policy analysis, or a student? <button id="student-start-btn" class="text-link">Start with one exercise →</button></p>
       <p class="route-aside">Know exactly what you need? <button id="show-all-tools" class="text-link">Browse all tools individually →</button></p>
+    </section>
+
+    <!-- Student on-ramp -->
+    <section id="student-start" class="panel hidden">
+      <button class="text-link back-to-router" data-act="router">← Back to the start</button>
+      <h2 class="panel-title">New here? Start with one exercise.</h2>
+      <p>You do not need to know the tools, or any of the frameworks. Policy reasoning is a craft. You learn it by doing it once, then doing it again.</p>
+      <ol class="student-steps">
+        <li>Pick a policy issue from this week's news — something you already have an opinion about.</li>
+        <li>Run it through <strong>Policy Analysis</strong>. It walks you through eight steps and ends with a memo. The tool guides you; you do not need to know the method going in.</li>
+        <li>Run <strong>Find a Framework</strong> on the same issue. Seeing which lenses apply to a problem you understand is the fastest way to build analytical vocabulary.</li>
+      </ol>
+      <p class="muted">Want the thinking behind all this first? Read <a href="about.html">how Scholar thinks</a>, or browse the full framework library at <a href="https://frameworks.pranaykotas.com" target="_blank" rel="noopener">frameworks.pranaykotas.com</a>.</p>
+      <div class="panel-actions">
+        <button id="student-begin" class="solid-btn">Begin: Policy Analysis →</button>
+        <button class="line-btn back-to-router" data-act="router">See the guided paths instead</button>
+      </div>
     </section>
 
     <!-- Path view: the chosen lifecycle -->

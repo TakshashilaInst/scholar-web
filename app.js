@@ -29,6 +29,7 @@ const settingsBtn   = $('settings-btn');
 const apiKeyInput   = $('api-key');
 const modelSelect   = $('model-select');
 const router        = $('router');
+const studentStart  = $('student-start');
 const pathView      = $('path-view');
 const pathTitle     = $('path-title');
 const pathSub       = $('path-sub');
@@ -47,7 +48,7 @@ const sendBtn       = $('send-btn');
 const backBtn       = $('back-btn');
 const resetBtn      = $('reset-btn');
 
-const SECTIONS = [settingsPanel, router, pathView, workflowSelect, workflowChat];
+const SECTIONS = [settingsPanel, router, studentStart, pathView, workflowSelect, workflowChat];
 function show(section) {
   SECTIONS.forEach(s => { if (s !== settingsPanel) s.classList.add('hidden'); });
   section.classList.remove('hidden');
@@ -94,6 +95,9 @@ function attachListeners() {
     card.addEventListener('click', () => openPath(card.dataset.path)));
 
   $('show-all-tools').addEventListener('click', () => { currentPath = null; show(workflowSelect); });
+
+  $('student-start-btn').addEventListener('click', () => show(studentStart));
+  $('student-begin').addEventListener('click', () => { currentPath = null; startWorkflow('bardach'); });
 
   document.querySelectorAll('[data-act="router"]').forEach(b =>
     b.addEventListener('click', goRouter));
