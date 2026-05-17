@@ -334,6 +334,18 @@ code {
   .input-form { flex-direction: column; }
   .input-form .solid-btn { width: 100%; }
   .masthead-rule::after { margin-left: 1.3rem; }
+
+  /* Masthead: let the nav wrap below the brand instead of overflowing */
+  .masthead { padding-top: 1.6rem; }
+  .masthead-inner { flex-wrap: wrap; gap: 0.5rem 0.9rem; }
+  .masthead-nav { gap: 1rem; font-size: 0.88rem; flex-wrap: wrap; }
+  .brand-title { font-size: 1.45rem; }
+  .brand-kicker { font-size: 0.64rem; }
+  .lighthouse { width: 28px; height: 38px; }
+
+  /* Chat and About tables: scroll inside their own box, never the page */
+  .message-content table,
+  .article table { display: block; overflow-x: auto; font-size: 0.9rem; white-space: normal; }
 }
 
 /* ---------- Router: choose a path ---------- */
