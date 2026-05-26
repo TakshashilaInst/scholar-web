@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..700&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -46,20 +46,32 @@
     <!-- Settings -->
     <section id="settings-panel" class="panel hidden">
       <h2 class="panel-title">Settings</h2>
-      <p class="muted">Your Anthropic API key is stored only in this browser's <code>localStorage</code>. It is never sent anywhere except Anthropic's API.</p>
-      <label for="api-key">Anthropic API key</label>
-      <input type="password" id="api-key" placeholder="sk-ant-…" autocomplete="off" spellcheck="false">
-      <label for="model-select">Model</label>
-      <select id="model-select">
-        <option value="claude-sonnet-4-5-20250929">Claude Sonnet 4.5 — recommended</option>
-        <option value="claude-opus-4-1-20250805">Claude Opus 4.1 — deepest reasoning</option>
-        <option value="claude-3-5-haiku-20241022">Claude Haiku 3.5 — cheapest</option>
+      <p class="muted">Your API key is stored only in this browser's <code>localStorage</code>. It is sent only to the provider you choose below.</p>
+
+      <label for="provider-select">Provider</label>
+      <select id="provider-select">
+        <option value="anthropic">Anthropic — direct, lowest latency</option>
+        <option value="openrouter">OpenRouter — many models, cheaper options</option>
       </select>
+
+      <div id="provider-note-anthropic" class="provider-note">
+        Calls go directly from your browser to Anthropic. Get a key at <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a>. You pay Anthropic for usage.
+      </div>
+      <div id="provider-note-openrouter" class="provider-note hidden">
+        Calls go through OpenRouter, which proxies to many model providers including DeepSeek, Kimi, Gemini, GPT, Llama, Qwen, and Claude. One key, many models. Cheaper than calling frontier providers directly. Get a key at <a href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai/keys</a>. Note: OpenRouter is a third party that sees your requests in transit.
+      </div>
+
+      <label for="api-key">API key</label>
+      <input type="password" id="api-key" placeholder="sk-…" autocomplete="off" spellcheck="false">
+
+      <label for="model-select">Model</label>
+      <select id="model-select"></select>
+      <input type="text" id="model-custom" class="hidden" placeholder="provider/model-id (e.g. deepseek/deepseek-chat-v3.1)" autocomplete="off" spellcheck="false">
+
       <div class="panel-actions">
         <button id="save-settings" class="solid-btn">Save</button>
         <button id="clear-settings" class="line-btn">Clear key</button>
       </div>
-      <p class="muted small">Get a key at <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a>. You pay Anthropic directly for usage.</p>
     </section>
 
     <!-- Router: where are you? -->
@@ -139,6 +151,7 @@
         <li><button class="workflow-card" data-workflow="values"><span class="wf-index">10</span><h3>Values Review</h3><p>Read through Takshashila's five commitments. Tensions surfaced as questions.</p></button></li>
         <li><button class="workflow-card" data-workflow="realities"><span class="wf-index">11</span><h3>21st-Century Realities Check</h3><p>Climate, energy transition, information age, complexity — the quick four-lens check.</p></button></li>
         <li><button class="workflow-card" data-workflow="critique"><span class="wf-index">12</span><h3>Argument Critique</h3><p>Adversarial review: Baloney Detection, Sagan's method, named logical fallacies.</p></button></li>
+        <li><button class="workflow-card" data-workflow="citations"><span class="wf-index">13</span><h3>Citation Formatter</h3><p>Reformat references to Takshashila house style. Use at the very end, before submission.</p></button></li>
       </ol>
     </section>
 
@@ -176,7 +189,7 @@
     </div>
   </footer>
 
-  <script src="prompts.js?v=4"></script>
-  <script src="app.js?v=4"></script>
+  <script src="prompts.js?v=5"></script>
+  <script src="app.js?v=5"></script>
 </body>
 </html>

@@ -4,11 +4,40 @@
 // stages; output from one stage can be carried into the next.
 
 const STORAGE_KEYS = {
-  apiKey: 'takshashila_scholar_api_key',
-  model:  'takshashila_scholar_model'
+  provider:        'takshashila_scholar_provider',
+  anthropicKey:    'takshashila_scholar_api_key',          // legacy name kept for back-compat
+  openrouterKey:   'takshashila_scholar_openrouter_key',
+  anthropicModel:  'takshashila_scholar_model',            // legacy name kept for back-compat
+  openrouterModel: 'takshashila_scholar_openrouter_model'
 };
-const DEFAULT_MODEL = 'claude-sonnet-4-5-20250929';
-const ANTHROPIC_API_URL = 'https://api.anthropic.com/v1/messages';
+const DEFAULT_PROVIDER = 'anthropic';
+const ANTHROPIC_API_URL  = 'https://api.anthropic.com/v1/messages';
+const OPENROUTER_API_URL = 'https://openrouter.ai/api/v1/chat/completions';
+
+const PROVIDER_MODELS = {
+  anthropic: {
+    defaultModel: 'claude-sonnet-4-5-20250929',
+    options: [
+      { id: 'claude-sonnet-4-5-20250929', label: 'Claude Sonnet 4.5 — recommended' },
+      { id: 'claude-opus-4-1-20250805',   label: 'Claude Opus 4.1 — deepest reasoning' },
+      { id: 'claude-3-5-haiku-20241022',  label: 'Claude Haiku 3.5 — cheapest' }
+    ]
+  },
+  openrouter: {
+    defaultModel: 'deepseek/deepseek-chat',
+    options: [
+      { id: 'deepseek/deepseek-chat',                   label: 'DeepSeek V3 — recommended, very cheap' },
+      { id: 'deepseek/deepseek-r1',                     label: 'DeepSeek R1 — reasoning, cheap' },
+      { id: 'anthropic/claude-sonnet-4.5',              label: 'Claude Sonnet 4.5 (via OpenRouter)' },
+      { id: 'google/gemini-2.5-pro',                    label: 'Gemini 2.5 Pro' },
+      { id: 'openai/gpt-4o',                            label: 'GPT-4o' },
+      { id: 'moonshotai/kimi-k2',                       label: 'Kimi K2' },
+      { id: 'qwen/qwen3-235b-a22b-instruct',            label: 'Qwen3 235B' },
+      { id: 'meta-llama/llama-3.3-70b-instruct',        label: 'Llama 3.3 70B (open weight)' },
+      { id: '__custom__',                               label: 'Custom — enter model ID below…' }
+    ]
+  }
+};
 const WRITING_WF = ['oped', 'brief', 'discussion'];
 const PASSIVE = { '__draft__': DRAFT_NODE, '__sources__': SOURCES_NODE };
 const isPassive = (k) => typeof k === 'string' && k.startsWith('__');
@@ -26,8 +55,12 @@ const REVIEW_TAIL = ['review', 'values', 'critique'];
 const $ = (id) => document.getElementById(id);
 const settingsPanel = $('settings-panel');
 const settingsBtn   = $('settings-btn');
+const providerSelect= $('provider-select');
 const apiKeyInput   = $('api-key');
 const modelSelect   = $('model-select');
+const modelCustom   = $('model-custom');
+const providerNoteAnthropic  = $('provider-note-anthropic');
+const providerNoteOpenrouter = $('provider-note-openrouter');
 const router        = $('router');
 const studentStart  = $('student-start');
 const pathView      = $('path-view');
@@ -62,28 +95,84 @@ function init() {
   if (!getApiKey()) settingsPanel.classList.remove('hidden');
 }
 
-function loadSettings() {
-  const k = localStorage.getItem(STORAGE_KEYS.apiKey);
-  modelSelect.value = localStorage.getItem(STORAGE_KEYS.model) || DEFAULT_MODEL;
-  if (k) apiKeyInput.value = k;
+function getProvider() {
+  return localStorage.getItem(STORAGE_KEYS.provider) || DEFAULT_PROVIDER;
 }
-const getApiKey = () => localStorage.getItem(STORAGE_KEYS.apiKey);
-const getModel  = () => localStorage.getItem(STORAGE_KEYS.model) || DEFAULT_MODEL;
+function getApiKey() {
+  return localStorage.getItem(getProvider() === 'openrouter' ? STORAGE_KEYS.openrouterKey : STORAGE_KEYS.anthropicKey);
+}
+function getModel() {
+  const p = getProvider();
+  const stored = localStorage.getItem(p === 'openrouter' ? STORAGE_KEYS.openrouterModel : STORAGE_KEYS.anthropicModel);
+  return stored || PROVIDER_MODELS[p].defaultModel;
+}
+
+function populateModelOptions(provider, selectedId) {
+  const opts = PROVIDER_MODELS[provider].options;
+  modelSelect.innerHTML = opts.map(o =>
+    `<option value="${o.id}"${o.id === selectedId ? ' selected' : ''}>${o.label}</option>`
+  ).join('');
+  // Reveal custom input if needed
+  const showCustom = (selectedId === '__custom__') || !opts.some(o => o.id === selectedId);
+  if (showCustom) {
+    modelSelect.value = '__custom__';
+    modelCustom.value = (selectedId && selectedId !== '__custom__') ? selectedId : '';
+    modelCustom.classList.remove('hidden');
+  } else {
+    modelCustom.classList.add('hidden');
+    modelCustom.value = '';
+  }
+}
+
+function syncProviderUI() {
+  const p = providerSelect.value;
+  providerNoteAnthropic.classList.toggle('hidden', p !== 'anthropic');
+  providerNoteOpenrouter.classList.toggle('hidden', p !== 'openrouter');
+  const storedKey = localStorage.getItem(p === 'openrouter' ? STORAGE_KEYS.openrouterKey : STORAGE_KEYS.anthropicKey) || '';
+  apiKeyInput.value = storedKey;
+  apiKeyInput.placeholder = p === 'openrouter' ? 'sk-or-…' : 'sk-ant-…';
+  const storedModel = localStorage.getItem(p === 'openrouter' ? STORAGE_KEYS.openrouterModel : STORAGE_KEYS.anthropicModel)
+                   || PROVIDER_MODELS[p].defaultModel;
+  populateModelOptions(p, storedModel);
+}
+
+function loadSettings() {
+  providerSelect.value = getProvider();
+  syncProviderUI();
+}
 
 function attachListeners() {
   settingsBtn.addEventListener('click', () => settingsPanel.classList.toggle('hidden'));
 
+  providerSelect.addEventListener('change', syncProviderUI);
+  modelSelect.addEventListener('change', () => {
+    const showCustom = modelSelect.value === '__custom__';
+    modelCustom.classList.toggle('hidden', !showCustom);
+  });
+
   $('save-settings').addEventListener('click', () => {
+    const p = providerSelect.value;
+    localStorage.setItem(STORAGE_KEYS.provider, p);
+    const keyName   = p === 'openrouter' ? STORAGE_KEYS.openrouterKey   : STORAGE_KEYS.anthropicKey;
+    const modelName = p === 'openrouter' ? STORAGE_KEYS.openrouterModel : STORAGE_KEYS.anthropicModel;
     const key = apiKeyInput.value.trim();
-    if (key) localStorage.setItem(STORAGE_KEYS.apiKey, key);
-    localStorage.setItem(STORAGE_KEYS.model, modelSelect.value);
+    if (key) localStorage.setItem(keyName, key);
+    let model = modelSelect.value;
+    if (model === '__custom__') {
+      const custom = modelCustom.value.trim();
+      if (!custom) { toast('Enter a model ID or pick one from the list'); return; }
+      model = custom;
+    }
+    localStorage.setItem(modelName, model);
     settingsPanel.classList.add('hidden');
     toast('Settings saved');
   });
 
   $('clear-settings').addEventListener('click', () => {
-    if (confirm('Clear your API key from this browser?')) {
-      localStorage.removeItem(STORAGE_KEYS.apiKey);
+    const p = providerSelect.value;
+    const keyName = p === 'openrouter' ? STORAGE_KEYS.openrouterKey : STORAGE_KEYS.anthropicKey;
+    if (confirm(`Clear your ${p === 'openrouter' ? 'OpenRouter' : 'Anthropic'} API key from this browser?`)) {
+      localStorage.removeItem(keyName);
       apiKeyInput.value = '';
       toast('API key cleared');
     }
@@ -339,7 +428,7 @@ async function sendMessage(text) {
   let firstToken = true;
 
   try {
-    await streamAnthropic(
+    await streamModel(
       conversationHistory,
       buildSystemPrompt(currentWorkflow),
       (delta) => {
@@ -449,10 +538,45 @@ function renderNextStep() {
   nextStepEl.classList.remove('hidden');
 }
 
-// ---- Streaming Anthropic call (SSE) ----
+// ---- Streaming dispatcher (Anthropic or OpenRouter) ----
+async function streamModel(messages, systemPrompt, onDelta) {
+  const provider = getProvider();
+  if (provider === 'openrouter') return streamOpenRouter(messages, systemPrompt, onDelta);
+  return streamAnthropic(messages, systemPrompt, onDelta);
+}
+
+// Reads an SSE body and invokes onEvent(parsedJson) for each `data:` line.
+async function readSSE(res, onEvent) {
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = '';
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+    const lines = buffer.split('\n');
+    buffer = lines.pop();
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (!trimmed.startsWith('data:')) continue;
+      const payload = trimmed.slice(5).trim();
+      if (!payload || payload === '[DONE]') continue;
+      let evt;
+      try { evt = JSON.parse(payload); } catch (e) { continue; }
+      onEvent(evt);
+    }
+  }
+}
+
+async function errorMessageFrom(res) {
+  let msg = `HTTP ${res.status}`;
+  try { const d = await res.json(); if (d.error?.message) msg = d.error.message; } catch (e) {}
+  return msg;
+}
+
 async function streamAnthropic(messages, systemPrompt, onDelta) {
   const apiKey = getApiKey();
-  if (!apiKey) throw new Error('No API key set. Add one in Settings.');
+  if (!apiKey) throw new Error('No Anthropic API key set. Add one in Settings.');
 
   const res = await fetch(ANTHROPIC_API_URL, {
     method: 'POST',
@@ -470,37 +594,46 @@ async function streamAnthropic(messages, systemPrompt, onDelta) {
       messages
     })
   });
+  if (!res.ok) throw new Error(await errorMessageFrom(res));
 
-  if (!res.ok) {
-    let msg = `HTTP ${res.status}`;
-    try { const d = await res.json(); if (d.error?.message) msg = d.error.message; } catch (e) {}
-    throw new Error(msg);
-  }
-
-  const reader = res.body.getReader();
-  const decoder = new TextDecoder();
-  let buffer = '';
-
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    buffer += decoder.decode(value, { stream: true });
-    const lines = buffer.split('\n');
-    buffer = lines.pop();  // keep last partial line
-    for (const line of lines) {
-      const trimmed = line.trim();
-      if (!trimmed.startsWith('data:')) continue;
-      const payload = trimmed.slice(5).trim();
-      if (!payload || payload === '[DONE]') continue;
-      let evt;
-      try { evt = JSON.parse(payload); } catch (e) { continue; }
-      if (evt.type === 'content_block_delta' && evt.delta?.type === 'text_delta') {
-        onDelta(evt.delta.text);
-      } else if (evt.type === 'error') {
-        throw new Error(evt.error?.message || 'Streaming error from Anthropic API');
-      }
+  await readSSE(res, (evt) => {
+    if (evt.type === 'content_block_delta' && evt.delta?.type === 'text_delta') {
+      onDelta(evt.delta.text);
+    } else if (evt.type === 'error') {
+      throw new Error(evt.error?.message || 'Streaming error from Anthropic API');
     }
-  }
+  });
+}
+
+async function streamOpenRouter(messages, systemPrompt, onDelta) {
+  const apiKey = getApiKey();
+  if (!apiKey) throw new Error('No OpenRouter API key set. Add one in Settings.');
+
+  // OpenAI-compatible chat format: system goes as the first message
+  const msgs = [{ role: 'system', content: systemPrompt }, ...messages];
+
+  const res = await fetch(OPENROUTER_API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`,
+      'HTTP-Referer': 'https://takshashilainst.github.io/scholar-web/',
+      'X-Title': 'Takshashila Scholar'
+    },
+    body: JSON.stringify({
+      model: getModel(),
+      max_tokens: 4096,
+      stream: true,
+      messages: msgs
+    })
+  });
+  if (!res.ok) throw new Error(await errorMessageFrom(res));
+
+  await readSSE(res, (evt) => {
+    const delta = evt.choices?.[0]?.delta?.content;
+    if (typeof delta === 'string' && delta.length) onDelta(delta);
+    if (evt.error) throw new Error(evt.error.message || 'Streaming error from OpenRouter');
+  });
 }
 
 // ---- Minimal markdown ----

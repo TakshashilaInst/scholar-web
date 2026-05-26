@@ -257,6 +257,16 @@ code {
 .panel input:focus, .panel select:focus { outline: none; border-color: var(--maroon); }
 .panel-actions { display: flex; gap: 0.8rem; margin-top: 1.6rem; }
 
+.provider-note {
+  margin-top: 0.6rem; padding: 0.7rem 0.9rem;
+  background: rgba(176,125,34,0.10);
+  border-left: 3px solid var(--gold);
+  font-size: 0.9rem; color: var(--ink-soft); line-height: 1.55;
+  border-radius: 2px;
+}
+.provider-note a { color: var(--maroon); }
+#model-custom { margin-top: 0.5rem; }
+
 /* ---------- Chat ---------- */
 .chat { padding: 2.6rem 0 4rem; }
 .chat-header {
