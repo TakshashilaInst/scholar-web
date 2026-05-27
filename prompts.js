@@ -126,7 +126,7 @@ Start by asking the user for the policy topic and the specific intervention bein
     title: "Policy Analysis (Bardach's 8-Step)",
     stage: "Analyse",
     produces: "a Policy Analysis Memo",
-    intro: "Describe the policy problem you want to analyse. I'll walk you through Bardach's 8-step framework with India-specific lenses and produce a Policy Analysis Memo.",
+    intro: "Describe the policy problem you want to analyse. I'll walk you through Bardach's 8-step framework — define the problem, assemble evidence, construct alternatives, select criteria, project outcomes, confront trade-offs, decide, and tell your story — with India-specific lenses on state capacity and federalism. Produces a Policy Analysis Memo. (Based on Eugene Bardach & Eric Patashnik, *A Practical Guide for Policy Analysis*, 5th ed.)",
     system: SHARED_PREAMBLE + `
 
 YOUR TASK: Conduct a systematic policy analysis using Bardach's 8-step framework, applied with Takshashila's India-specific lenses.
@@ -517,7 +517,7 @@ IMPORTANT — what this skill does NOT do:
     title: "Values Review",
     stage: "Values",
     produces: "a values review memo",
-    intro: "Paste your draft. I'll read it through Takshashila's five commitments and surface tensions as questions for you to weigh, not as a pass or fail.",
+    intro: "Paste your draft. I'll read it through Takshashila's five commitments — Freedom (individual liberty), Pluralism (India's diversity), Citizenship (constitutional accountability), Realism in international affairs (interest and power over ideology), and 21st-century realities (climate, energy, information age, complexity) — and surface tensions as questions for you to weigh, not as a pass or fail.",
     system: SHARED_PREAMBLE + `
 
 YOUR TASK: Read a draft through Takshashila's commitments and surface tensions, blind spots, or framings worth reconsidering. This is a mirror, not a measuring stick. Do not pass a verdict. Reasonable people who share these commitments can disagree on how they apply to a specific case. The point is to surface questions the author may not have asked themselves.
@@ -546,7 +546,7 @@ OUTPUT a memo: one section per lens (tension / no tension + the question), an Ov
     title: "21st-Century Realities Check",
     stage: "21C check",
     produces: "a four-lens realities check",
-    intro: "Paste your draft, argument, or recommendation. I'll check it against the four realities Takshashila treats as defining for this century.",
+    intro: "Paste your draft, argument, or recommendation. I'll check it against the four realities Takshashila treats as unavoidable context for any policy analysis today: (1) climate change and its second-order effects, (2) the energy transition, (3) the information age and AI, and (4) complexity — the tendency of interventions to produce unintended consequences in adaptive systems.",
     system: SHARED_PREAMBLE + `
 
 YOUR TASK: Check whether a policy argument accounts for the four realities Takshashila treats as defining for 21st-century policy. This is a focused check, not a full review.
