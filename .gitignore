@@ -6,3 +6,7 @@ node_modules/
 .claude/
 playwright-report/
 test-results/
+package.json
+package-lock.json
+playwright.config.js
+tests/
