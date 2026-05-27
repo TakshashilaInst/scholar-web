@@ -144,6 +144,9 @@ code {
   border-bottom: 1px solid transparent;
 }
 .ghost-btn:hover { color: var(--maroon); border-bottom-color: var(--gold); }
+.github-btn { padding: 0; border: none; line-height: 0; }
+.github-icon { width: 20px; height: 20px; fill: var(--ink-soft); display: block; transition: fill .18s; }
+.github-btn:hover .github-icon { fill: var(--maroon); }
 
 /* ---------- Lede / hero ---------- */
 .lede-wrap { padding: 4.5rem 0 5rem; }
