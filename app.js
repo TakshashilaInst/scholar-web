@@ -16,11 +16,11 @@ const OPENROUTER_API_URL = 'https://openrouter.ai/api/v1/chat/completions';
 
 const PROVIDER_MODELS = {
   anthropic: {
-    defaultModel: 'claude-sonnet-4-5-20250929',
+    defaultModel: 'claude-sonnet-4-6',
     options: [
-      { id: 'claude-sonnet-4-5-20250929', label: 'Claude Sonnet 4.5 — recommended' },
-      { id: 'claude-opus-4-1-20250805',   label: 'Claude Opus 4.1 — deepest reasoning' },
-      { id: 'claude-3-5-haiku-20241022',  label: 'Claude Haiku 3.5 — cheapest' }
+      { id: 'claude-sonnet-4-6',          label: 'Claude Sonnet 4.6 — recommended' },
+      { id: 'claude-opus-4-7',            label: 'Claude Opus 4.7 — deepest reasoning' },
+      { id: 'claude-haiku-4-5-20251001',  label: 'Claude Haiku 4.5 — cheapest' }
     ]
   },
   openrouter: {
@@ -184,6 +184,7 @@ function attachListeners() {
     card.addEventListener('click', () => openPath(card.dataset.path)));
 
   $('show-all-tools').addEventListener('click', () => { currentPath = null; show(workflowSelect); });
+  $('tools-nav-btn').addEventListener('click', () => { currentPath = null; show(workflowSelect); });
 
   $('student-start-btn').addEventListener('click', () => show(studentStart));
   $('student-begin').addEventListener('click', () => { currentPath = null; startWorkflow('bardach'); });
