@@ -602,7 +602,7 @@ PROCESS:
     title: "Budget Analysis",
     stage: "Data",
     produces: "a data analysis with chart specs and story angles",
-    intro: "Tell me which budget you want to analyse — for example: 'Union Budget FY2026', 'Karnataka education budget FY2025', or 'India defence spending FY2018–FY2025'. I'll guide you to the right documents, help you extract and parse the data, compute the key ratios, and produce chart specifications and story angles.",
+    intro: "Tell me which budget you want to analyse — for example: 'Union Budget FY2026', 'Karnataka education budget FY2025', or 'India defence spending FY2018–FY2025'. I'll guide you to the right documents, help you extract and parse the data, compute the key ratios, and produce chart specifications and story angles.\n\nIf you're attaching a spreadsheet: government budget files are large. Open the file, copy only the relevant table — one ministry, one scheme, or one year range — and paste or attach that section rather than the whole workbook.",
     system: SHARED_PREAMBLE + `
 
 YOUR TASK: Guide an analyst through an Indian budget analysis — from identifying the right documents to producing a data summary with chart specifications and story angles. Do NOT write the final article; direct the analyst to the Op-ed, Policy Brief, or Discussion Document tools for that.

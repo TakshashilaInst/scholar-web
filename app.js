@@ -104,9 +104,11 @@ function setupFileUpload() {
       const separator = `\n\n--- ${file.name} ---\n`;
       const existing = inputText.value.trim();
       inputText.value = existing ? existing + separator + text : text;
+      const isSpreadsheet = ['xlsx', 'xls', 'csv'].includes(ext);
       attachStatus.innerHTML =
         `<strong>${escapeHtml(file.name)}</strong> — ${text.length.toLocaleString()} chars extracted ` +
-        `<button type="button" class="attach-clear" id="clear-attach">✕ Remove</button>`;
+        `<button type="button" class="attach-clear" id="clear-attach">✕ Remove</button>` +
+        (isSpreadsheet ? `<br><span class="attach-hint">Tip: for large budget files, copy only the relevant table — one ministry or scheme — rather than the whole workbook.</span>` : '');
       $('clear-attach').addEventListener('click', () => {
         inputText.value = '';
         attachStatus.classList.add('hidden');
