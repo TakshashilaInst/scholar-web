@@ -31,7 +31,7 @@ Three entry points, depending on where you are:
 
 Every Indian state needs many Takshashilas. In the pre-AI age, building that meant building institutions — which takes years. AI makes a version of it possible right now.
 
-Takshashila Scholar is the methodology made open. Thirteen tools covering the full research lifecycle, organised into three guided paths with context carrying forward from one stage to the next.
+Takshashila Scholar is the methodology made open. Fourteen tools covering the full research lifecycle, organised into three guided paths with context carrying forward from one stage to the next.
 
 ```
 Frame & analyse
@@ -54,6 +54,12 @@ Review & finalise
   11  21st-Century Realities   — climate, energy transition, information age, complexity
   12  Argument Critique        — adversarial; Baloney Detection + Sagan's method
   13  Citation Formatter       — Takshashila house style; use at the very end
+
+Data
+  14  Budget Analysis          — guide an Indian budget analysis from scratch; Union or
+                                 State budgets; time series, component breakdown, scheme
+                                 tracking, cross-state comparison; chart specs and story
+                                 angles; attach PDF or Excel directly
 ```
 
 A router on the homepage groups these into three starting paths and walks the researcher through the right sequence. Tools can also be used individually.
@@ -123,7 +129,8 @@ python3 -m http.server 8000
 ## Limitations
 
 - Condensed system prompts. Full skill files with examples and institutional knowledge are in the [CLI plugin](https://github.com/pranaykotas/takshashila-scholar).
-- No web search, no file uploads, no Obsidian or Zotero integration. Use the CLI for those.
+- No web search, no Obsidian or Zotero integration. Use the CLI for those.
+- File uploads (PDF, Excel, Word, CSV) are supported — text is extracted client-side and placed in the message box for review before sending. Large government budget spreadsheets should be trimmed to the relevant table before attaching.
 - The app reminds you to consult [Standing Committee reports](https://parliamentcommittee.streamlit.app/) at the evidence stage and asks you to paste findings back in.
 - AI output should be verified — especially citations, statistics, and claims about specific institutions.
 
