@@ -118,13 +118,22 @@ function setupFileUpload() {
   });
 }
 
+const EXTRACT_MAX = 60000;
+
 async function extractFileText(file) {
   const ext = file.name.split('.').pop().toLowerCase();
-  if (ext === 'csv') return file.text();
-  if (ext === 'pdf') return extractPDF(file);
-  if (ext === 'xlsx' || ext === 'xls') return extractExcel(file);
-  if (ext === 'docx') return extractDocx(file);
-  throw new Error(`Unsupported type: .${ext}`);
+  let text;
+  if (ext === 'csv') text = await file.text();
+  else if (ext === 'pdf') text = await extractPDF(file);
+  else if (ext === 'xlsx' || ext === 'xls') text = await extractExcel(file);
+  else if (ext === 'docx') text = await extractDocx(file);
+  else throw new Error(`Unsupported type: .${ext}`);
+
+  if (text.length > EXTRACT_MAX) {
+    return text.slice(0, EXTRACT_MAX) +
+      `\n\n[File truncated at ${EXTRACT_MAX.toLocaleString()} characters — full file is ${text.length.toLocaleString()} characters. For budget analysis, paste only the relevant sheet or table to stay within model limits.]`;
+  }
+  return text;
 }
 
 async function extractPDF(file) {
@@ -148,8 +157,21 @@ async function extractExcel(file) {
   const wb = XLSX.read(data, { type: 'array' });
   return wb.SheetNames.map(name => {
     const csv = XLSX.utils.sheet_to_csv(wb.Sheets[name]);
-    return csv.trim() ? `Sheet: ${name}\n${csv}` : '';
+    const clean = cleanCsv(csv);
+    return clean ? `Sheet: ${name}\n${clean}` : '';
   }).filter(Boolean).join('\n\n');
+}
+
+function cleanCsv(csv) {
+  return csv.split('\n')
+    .map(row => {
+      const cells = row.split(',');
+      let last = cells.length - 1;
+      while (last > 0 && cells[last].trim() === '') last--;
+      return cells.slice(0, last + 1).join(',');
+    })
+    .filter(row => row.replace(/,/g, '').trim() !== '')
+    .join('\n');
 }
 
 async function extractDocx(file) {
