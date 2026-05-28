@@ -88,9 +88,81 @@ function show(section) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+// ---- File upload & extraction ----
+function setupFileUpload() {
+  const fileInput = $('file-input');
+  const attachStatus = $('attach-status');
+  if (!fileInput) return;
+
+  fileInput.addEventListener('change', async () => {
+    const file = fileInput.files[0];
+    if (!file) return;
+    attachStatus.textContent = 'Extracting…';
+    attachStatus.classList.remove('hidden');
+    try {
+      const text = await extractFileText(file);
+      const separator = `\n\n--- ${file.name} ---\n`;
+      const existing = inputText.value.trim();
+      inputText.value = existing ? existing + separator + text : text;
+      attachStatus.innerHTML =
+        `<strong>${escapeHtml(file.name)}</strong> — ${text.length.toLocaleString()} chars extracted ` +
+        `<button type="button" class="attach-clear" id="clear-attach">✕ Remove</button>`;
+      $('clear-attach').addEventListener('click', () => {
+        inputText.value = '';
+        attachStatus.classList.add('hidden');
+      });
+    } catch (err) {
+      attachStatus.textContent = `Could not extract: ${err.message}`;
+    }
+    fileInput.value = '';
+  });
+}
+
+async function extractFileText(file) {
+  const ext = file.name.split('.').pop().toLowerCase();
+  if (ext === 'csv') return file.text();
+  if (ext === 'pdf') return extractPDF(file);
+  if (ext === 'xlsx' || ext === 'xls') return extractExcel(file);
+  if (ext === 'docx') return extractDocx(file);
+  throw new Error(`Unsupported type: .${ext}`);
+}
+
+async function extractPDF(file) {
+  if (typeof pdfjsLib === 'undefined') throw new Error('PDF library not loaded');
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  const data = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({ data }).promise;
+  const pages = [];
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    pages.push(content.items.map(item => item.str).join(' '));
+  }
+  return pages.join('\n');
+}
+
+async function extractExcel(file) {
+  if (typeof XLSX === 'undefined') throw new Error('Excel library not loaded');
+  const data = await file.arrayBuffer();
+  const wb = XLSX.read(data, { type: 'array' });
+  return wb.SheetNames.map(name => {
+    const csv = XLSX.utils.sheet_to_csv(wb.Sheets[name]);
+    return csv.trim() ? `Sheet: ${name}\n${csv}` : '';
+  }).filter(Boolean).join('\n\n');
+}
+
+async function extractDocx(file) {
+  if (typeof mammoth === 'undefined') throw new Error('Word library not loaded');
+  const data = await file.arrayBuffer();
+  const result = await mammoth.extractRawText({ arrayBuffer: data });
+  return result.value;
+}
+
 function init() {
   loadSettings();
   attachListeners();
+  setupFileUpload();
   show(router);
   if (!getApiKey()) settingsPanel.classList.remove('hidden');
 }
@@ -427,6 +499,7 @@ async function sendMessage(text) {
 
   let raw = '';
   let firstToken = true;
+  let renderScheduled = false;
 
   try {
     await streamModel(
@@ -435,11 +508,17 @@ async function sendMessage(text) {
       (delta) => {
         if (firstToken) { content.innerHTML = ''; firstToken = false; }
         raw += delta;
-        content.textContent = raw;          // fast path while streaming
-        messagesEl.scrollTop = messagesEl.scrollHeight;
+        if (!renderScheduled) {
+          renderScheduled = true;
+          requestAnimationFrame(() => {
+            content.innerHTML = renderMarkdown(raw);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+            renderScheduled = false;
+          });
+        }
       }
     );
-    content.innerHTML = renderMarkdown(raw);  // final pretty render
+    content.innerHTML = renderMarkdown(raw);  // final clean render
     conversationHistory.push({ role: 'assistant', content: raw });
     lastAssistantOutput = raw;
     attachTools(wrap, raw);

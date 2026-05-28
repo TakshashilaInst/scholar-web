@@ -340,13 +340,21 @@ code {
 @keyframes blink { 50% { opacity: 0.25; } }
 
 .input-form { display: flex; gap: 0.9rem; align-items: stretch; margin-top: 1.4rem; }
+.input-field-wrap { flex: 1; display: flex; flex-direction: column; gap: 0.45rem; }
 .input-form textarea {
-  flex: 1; padding: 0.85rem 1rem; font-family: var(--serif-b); font-size: 1.02rem;
+  width: 100%; padding: 0.85rem 1rem; font-family: var(--serif-b); font-size: 1.02rem;
   line-height: 1.55; background: var(--raised); color: var(--ink);
-  border: 1px solid var(--rule); border-radius: 2px; resize: vertical;
+  border: 1px solid var(--rule); border-radius: 2px; resize: vertical; box-sizing: border-box;
 }
 .input-form textarea:focus { outline: none; border-color: var(--maroon); }
 .input-form .solid-btn { align-self: stretch; padding-inline: 1.8rem; }
+.input-toolbar { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+.attach-label { display: inline-flex; align-items: center; gap: 0.3rem; cursor: pointer; font-size: 0.87rem; color: var(--ink-soft); font-family: var(--serif-b); letter-spacing: 0.01em; transition: color .15s; user-select: none; }
+.attach-label:hover { color: var(--maroon); }
+.attach-icon { width: 13px; height: 13px; fill: currentColor; flex-shrink: 0; }
+.attach-status { font-size: 0.84rem; color: var(--ink-soft); font-family: var(--serif-b); }
+.attach-clear { background: none; border: none; cursor: pointer; color: var(--ink-soft); font-size: 0.84rem; font-family: var(--serif-b); padding: 0 0 0 0.2rem; transition: color .15s; }
+.attach-clear:hover { color: var(--maroon); }
 
 /* ---------- Footer ---------- */
 .site-footer { margin-top: 3rem; padding: 0 0 3.4rem; }

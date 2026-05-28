@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..700&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=8">
+  <link rel="stylesheet" href="styles.css?v=9">
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -167,7 +167,17 @@
       <div id="messages" class="messages"></div>
       <div id="next-step" class="next-step hidden"></div>
       <form id="input-form" class="input-form">
-        <textarea id="input-text" placeholder="Write your message — Shift+Enter for a new line, Enter to send" rows="3"></textarea>
+        <div class="input-field-wrap">
+          <textarea id="input-text" placeholder="Write your message — Shift+Enter for a new line, Enter to send" rows="3"></textarea>
+          <div class="input-toolbar">
+            <label class="attach-label" for="file-input" title="Attach a file — PDF, Excel, Word, or CSV">
+              <svg class="attach-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0z"/></svg>
+              Attach file
+            </label>
+            <input type="file" id="file-input" class="hidden" accept=".pdf,.xlsx,.xls,.csv,.docx">
+            <span id="attach-status" class="attach-status hidden"></span>
+          </div>
+        </div>
         <button type="submit" id="send-btn" class="solid-btn">Send</button>
       </form>
       <p class="muted small disclaimer">This conversation lives only in your browser. Refresh and it is gone. Nothing is sent anywhere except Anthropic's API.</p>
@@ -191,7 +201,10 @@
     </div>
   </footer>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
   <script src="prompts.js?v=8"></script>
-  <script src="app.js?v=6"></script>
+  <script src="app.js?v=7"></script>
 </body>
 </html>
