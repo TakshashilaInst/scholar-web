@@ -31,7 +31,7 @@ Three entry points, depending on where you are:
 
 Every Indian state needs many Takshashilas. In the pre-AI age, building that meant building institutions — which takes years. AI makes a version of it possible right now.
 
-Takshashila Scholar is the methodology made open. Fourteen tools covering the full research lifecycle, organised into three guided paths with context carrying forward from one stage to the next.
+Takshashila Scholar is the methodology made open. Fifteen tools covering the full research lifecycle, organised into three guided paths with context carrying forward from one stage to the next.
 
 ```
 Frame & analyse
@@ -60,6 +60,11 @@ Data
                                  State budgets; time series, component breakdown, scheme
                                  tracking, cross-state comparison; chart specs and story
                                  angles; attach PDF or Excel directly
+
+Digest
+  15  RBF — Source Digest      — turn one article, paper, or PDF into a ≤500-word
+                                 conclusion-first summary; not an abstract, not a
+                                 methodology recap; paste text or attach a file
 ```
 
 A router on the homepage groups these into three starting paths and walks the researcher through the right sequence. Tools can also be used individually.
